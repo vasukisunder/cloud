@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>the cloud is a place on earth</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <main>
+    <section id="intro">
+      <h1>the cloud is a place on earth</h1>
+      <p>a history of computing</p>
+    </section>
+
+    <section id="scrolly">
+      <div class="scrolly-overlay">
+        <!-- Sticky background that stays fixed while scrolling -->
+        <div class="sticky-thing">
+          <div class="chart" id="chart">
+            <!-- Visualizations will appear here -->
+          </div>
+        </div>
+        
+        <!-- Text content that scrolls over the visualization -->
+        <article>
+          <!-- Loading message that will be replaced with dynamically generated content -->
+          <div class="loading">Loading content...</div>
+        </article>
+      </div>
+    </section>
+
+    <section id="outro">
+      <p>Thank you for exploring the material reality of cloud computing with us.</p>
+    </section>
+  </main>
+
+  <script src="https://unpkg.com/intersection-observer@0.12.0/intersection-observer.js"></script>
+  <script src="https://unpkg.com/scrollama"></script>
+  <script src="script.js"></script>
+</body>
+</html> 
