@@ -79,18 +79,103 @@ h1 {
   width: 100%;
   height: 100vh;
   top: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
   z-index: 0; /* Place behind text */
+  overflow: hidden; /* Prevent backgrounds from overflowing */
+  border: none;
+  outline: none;
+}
+
+/* Honor user preferences - reduce or eliminate animations */
+@media (prefers-reduced-motion: reduce) {
+  .bg-layer {
+    transition: none !important;
+  }
+  
+  .image-container {
+    animation: none !important;
+    transition: none !important;
+    opacity: 1;
+  }
+}
+
+/* Background layers for crossfade effect */
+.bg-layer {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
+  transition: opacity 0.8s ease;
+  opacity: 0;
+  border: none;
+  outline: none;
+  will-change: opacity; /* Optimize for animation */
+  backface-visibility: hidden; /* Reduce flickering */
+  -webkit-backface-visibility: hidden;
+  transform: translateZ(0); /* Force GPU acceleration */
+  -webkit-transform: translateZ(0);
+}
+
+/* Active background layer */
+.bg-layer.active {
+  opacity: 1;
+  z-index: 0; /* Ensure proper stacking */
+}
+
+/* When it has a background image */
+.sticky-thing.has-bg-image {
+  background-color: rgba(0, 0, 0, 0.7); /* Darker background */
 }
 
 .chart {
   width: 100%;
   height: 100%;
+  position: relative;
+  padding: 2rem;
+  overflow: visible;
+  z-index: 1; /* Make sure chart content appears above background */
   display: flex;
   align-items: center;
   justify-content: center;
+}
+
+/* Image container styles */
+.image-container {
+  position: absolute;
+  transition: transform 0.5s ease;
+  opacity: 0;
+  animation: fadeIn 0.8s forwards;
+  /* Position will be set via JavaScript */
+  transform: translate(-50%, -50%);
+  z-index: 1;
+}
+
+/* Increase z-index when hovering to bring that image to front */
+.image-container:hover {
+  z-index: 10;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.image-container img {
+  display: block;
+  max-width: 100%;
+  height: auto;
+}
+
+.image-caption {
+  margin-top: 0.5rem;
+  font-size: 0.9rem;
+  color: #f0f0f0;
+  text-align: center;
+  padding: 0.5rem;
+  max-width: 500px;
 }
 
 /* Text content overlay */
@@ -104,14 +189,24 @@ article {
 /* Individual step styles */
 .step {
   max-width: 35rem;
-  margin: 0 auto 90vh auto; /* More space between steps */
+  margin: 0 auto 60vh auto; /* Reduced from 90vh to 60vh - less space between steps */
   padding: 1.5rem;
-  border-radius: 4px;
-  background-color: rgba(255, 255, 255, 0.9); /* Semi-transparent background */
-  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
   position: relative;
   left: 0;
   right: 0;
+  min-height: 50vh; /* Keep steps tall for progress tracking */
+  display: flex;
+  align-items: flex-start; /* Align text to top */
+  background-color: transparent; /* Remove background from entire step */
+}
+
+/* Add styles for the text content */
+.step p {
+  background-color: rgba(255, 255, 255, 0.9); /* Semi-transparent background */
+  padding: 1rem;
+  border-radius: 4px;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+  width: 100%; /* Take full width of the step container */
 }
 
 .step:last-child {
@@ -120,7 +215,7 @@ article {
 
 /* First step should have space at the top */
 .step:first-child {
-  margin-top: 50vh;
+  margin-top: 20vh; /* Reduced from 50vh to 20vh - first step appears sooner */
 }
 
 /* Removed the visual indicator for active steps */
@@ -135,4 +230,41 @@ article {
     max-width: 85%; /* Wider on mobile */
     padding: 1rem;
   }
-} 
+}
+
+/* Progress image styles */
+.progress-image {
+  transition: opacity 0.3s ease;
+  position: absolute;
+  transform: translate(-50%, -50%);
+}
+
+/* Animation classes */
+.fade-in {
+  animation: fadeIn 0.3s forwards;
+}
+
+.fade-out {
+  animation: fadeOut 0.3s forwards;
+}
+
+@keyframes fadeOut {
+  from { opacity: 1; }
+  to { opacity: 0; }
+}
+
+/* Progress image caption styles */
+.progress-image .image-caption {
+  position: absolute;
+  bottom: 10px;
+  left: 10px;
+  font-size: 9px;
+  margin: 0;
+  padding: 4px 8px;
+  background: rgba(0, 0, 0, 0.7);
+  color: #fff;
+  max-width: 90%;
+  border-radius: 2px;
+  text-align: left;
+  pointer-events: none;
+}

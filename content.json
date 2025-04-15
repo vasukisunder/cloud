@@ -1,14 +1,14 @@
 {
   "sections": [
     {
-      "Introduction": [
+      "introduction": [
         {
           "1": "We speak of \"the cloud\" as if our data floats in an ethereal realm, suspended above the messy realities of the physical world. We imagine our digital lives existing in a dimension of pure information, separate from geography, politics, and environmental impact.",
           "2": "We think of the cloud as being weightless, enigmatic, and nascent.",
           "3": "In reality, the cloud is a place on earth.",
           "4": "The cloud is not weightless – it is strategically placed data centers, satellites, and fiber optic cables lying on our ocean floors.",
           "5": "It is vast warehouses in rural Virginia, where thousands of servers consume electricity equivalent to small cities.",
-          "6": "It is rare earth mines in the Congo assembly lines in Shenzhen, and e-waste processing centers in Ghana.",
+          "6": "It is rare earth mines in the Congo, assembly lines in Shenzhen, and e-waste processing centers in Ghana.",
           "7": "It is cooling systems draining millions of gallons of water in drought-stricken regions.",
           "8": "The cloud is not enigmatic – but its ambiguity is no coincidence.",
           "9": "This cloudiness allows us seemingly infinite computational power, while tech giants invest billions into building international data centers.",

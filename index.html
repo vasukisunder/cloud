@@ -4,9 +4,55 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>the cloud is a place on earth</title>
+  
+  <!-- Add resource hints to speed up loading -->
+  <link rel="preconnect" href="https://unpkg.com">
+  <link rel="dns-prefetch" href="https://unpkg.com">
+  <link rel="preload" href="content.json" as="fetch" crossorigin>
+  
   <link rel="stylesheet" href="style.css">
+  <style>
+    /* Initial loading indicator styles */
+    .initial-loading {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: #f9f9f9;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      z-index: 9999;
+      transition: opacity 0.5s ease, visibility 0.5s ease;
+    }
+    .initial-loading.hidden {
+      opacity: 0;
+      visibility: hidden;
+    }
+    .loading-spinner {
+      width: 50px;
+      height: 50px;
+      border: 5px solid #eee;
+      border-top: 5px solid #333;
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+      margin-bottom: 20px;
+    }
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+  </style>
 </head>
 <body>
+  <!-- Initial loading indicator -->
+  <div class="initial-loading" id="initialLoading">
+    <div class="loading-spinner"></div>
+    <p>Loading content...</p>
+  </div>
+
   <main>
     <section id="intro">
       <h1>the cloud is a place on earth</h1>
@@ -17,6 +63,9 @@
       <div class="scrolly-overlay">
         <!-- Sticky background that stays fixed while scrolling -->
         <div class="sticky-thing">
+          <!-- Background layers for crossfade effect -->
+          <div class="bg-layer" id="bgLayer1"></div>
+          <div class="bg-layer" id="bgLayer2"></div>
           <div class="chart" id="chart">
             <!-- Visualizations will appear here -->
           </div>
@@ -38,5 +87,13 @@
   <script src="https://unpkg.com/intersection-observer@0.12.0/intersection-observer.js"></script>
   <script src="https://unpkg.com/scrollama"></script>
   <script src="script.js"></script>
+  <script>
+    // Hide the loading spinner once everything is loaded
+    window.addEventListener('load', function() {
+      setTimeout(function() {
+        document.getElementById('initialLoading').classList.add('hidden');
+      }, 500); // Small delay to ensure content has rendered
+    });
+  </script>
 </body>
 </html> 
