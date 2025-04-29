@@ -6,7 +6,7 @@
 }
 
 body {
-  font-family: 'Space Grotesk', sans-serif;
+  font-family: helvetica, sans-serif;
   color: #ffffff;
   background-color: #000000;
   overflow: hidden;
@@ -401,7 +401,7 @@ body {
 }
 
 .step p {
-  font-family: 'Space Grotesk', sans-serif;
+  font-family: helvetica, sans-serif;
   font-size: 1.2rem;
   line-height: 1.8;
   margin-bottom: 1.5rem;
@@ -417,8 +417,6 @@ body {
   padding: 10vh 2rem;
   text-align: center;
 }
-
-
 
 .chapter-kicker {
   font-size: 1rem;
@@ -452,7 +450,7 @@ body {
   padding: 0.5rem 1rem;
   cursor: pointer;
   transition: all 0.3s ease;
-  font-family: 'Space Grotesk', sans-serif;
+  font-family: helvetica, sans-serif;
   font-size: 0.9rem;
   letter-spacing: 0.05em;
   text-transform: uppercase;
@@ -476,7 +474,7 @@ body {
   padding: 0.75rem 1.5rem;
   cursor: pointer;
   transition: all 0.3s ease;
-  font-family: 'Space Grotesk', sans-serif;
+  font-family: helvetica, sans-serif;
   font-size: 0.9rem;
   letter-spacing: 0.05em;
   text-transform: uppercase;
@@ -534,4 +532,103 @@ body {
   #fallback-chapters {
     gap: 0.5rem;
   }
+}
+
+/* Intro Scrollytelling Section */
+#intro-container {
+  z-index: 5;
+  overflow-y: auto;
+  overflow-x: hidden;
+  background-color: #000000;
+  transition: opacity 1s ease;
+}
+
+.intro-background {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: #000000;
+  z-index: -1;
+}
+
+.intro-scroll-container {
+  position: relative;
+  min-height: 100vh;
+}
+
+.intro-sticky-graphic {
+  position: sticky;
+  width: 100%;
+  height: 100vh;
+  top: 0;
+  left: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1;
+}
+
+.intro-grid-container {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  opacity: 0.2;
+  transition: opacity 0.5s ease;
+}
+
+.intro-steps-container {
+  position: relative;
+  padding: 10vh 0 30vh 0;
+  z-index: 2;
+}
+
+.intro-step {
+  width: 90%;
+  max-width: 600px;
+  margin: 0 auto 60vh;
+  opacity: 0.9;
+  transition: opacity 0.5s ease;
+}
+
+.intro-step.is-active {
+  opacity: 1;
+}
+
+.intro-step p {
+  font-size: 2rem;
+  font-weight: 300;
+  line-height: 1.4;
+  text-align: center;
+}
+
+.intro-continue {
+  width: 100%;
+  text-align: center;
+  padding-bottom: 30vh;
+  opacity: 0;
+  transition: opacity 0.5s ease;
+}
+
+.intro-continue.is-active {
+  opacity: 1;
+}
+
+#enter-button {
+  padding: 12px 24px;
+  font-family: helvetica, sans-serif;
+  font-size: 1rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  background-color: transparent;
+  color: white;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+#enter-button:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+  border-color: rgba(255, 255, 255, 0.8);
 } 

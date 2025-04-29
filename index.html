@@ -22,8 +22,26 @@
   </script>
 </head>
 <body>
+  <!-- Intro Scrollytelling Section -->
+  <div id="intro-container" class="fullscreen">
+    <div class="intro-background"></div>
+    
+    <div class="intro-scroll-container">
+      <div class="intro-sticky-graphic">
+        <div class="intro-grid-container"></div>
+      </div>
+      
+      <div class="intro-steps-container">
+        <!-- Content will be dynamically loaded from content.json -->
+        <div class="intro-continue">
+          <button id="enter-button">Enter</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <!-- Grid-based Navigation Environment -->
-  <div id="navigation-space" class="fullscreen"></div>
+  <div id="navigation-space" class="fullscreen hidden"></div>
 
   <!-- Content Container for Scrollytelling -->
   <div id="content-container" class="hidden">
@@ -31,14 +49,6 @@
     
     <div id="scroll-container">
       <!-- Content will be dynamically loaded here from content.json -->
-    </div>
-  </div>
-
-  <!-- Loading Screen -->
-  <div id="loading-screen" class="fullscreen">
-    <div class="loading-content">
-      <h1>The Cloud is a Place on Earth</h1>
-      <div class="loading-bar"><div class="loading-progress"></div></div>
     </div>
   </div>
   
