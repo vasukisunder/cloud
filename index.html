@@ -3,96 +3,91 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>the cloud is a place on earth</title>
-  
-  <!-- Add resource hints to speed up loading -->
-  <link rel="preconnect" href="https://unpkg.com">
-  <link rel="dns-prefetch" href="https://unpkg.com">
-  <link rel="preload" href="content.json" as="fetch" crossorigin>
-  
-  <link rel="stylesheet" href="style.css">
-  <style>
-    /* Initial loading indicator styles */
-    .initial-loading {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background-color: #f9f9f9;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      z-index: 9999;
-      transition: opacity 0.5s ease, visibility 0.5s ease;
-    }
-    .initial-loading.hidden {
-      opacity: 0;
-      visibility: hidden;
-    }
-    .loading-spinner {
-      width: 50px;
-      height: 50px;
-      border: 5px solid #eee;
-      border-top: 5px solid #333;
-      border-radius: 50%;
-      animation: spin 1s linear infinite;
-      margin-bottom: 20px;
-    }
-    @keyframes spin {
-      0% { transform: rotate(0deg); }
-      100% { transform: rotate(360deg); }
-    }
-  </style>
+  <title>The Cloud is a Place on Earth</title>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;700&family=Vollkorn:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+  <script>
+    // Handle fallback if needed
+    window.addEventListener('DOMContentLoaded', function() {
+      // Debug controller - toggle with Shift + D
+      window.addEventListener('keydown', function(e) {
+        if (e.shiftKey && e.key === 'D') {
+          const debugTools = document.getElementById('debug-tools');
+          if (debugTools) {
+            debugTools.style.display = debugTools.style.display === 'none' ? 'block' : 'none';
+          }
+        }
+      });
+    });
+  </script>
 </head>
 <body>
-  <!-- Initial loading indicator -->
-  <div class="initial-loading" id="initialLoading">
-    <div class="loading-spinner"></div>
-    <p>Loading content...</p>
+  <!-- Grid-based Navigation Environment -->
+  <div id="navigation-space" class="fullscreen"></div>
+
+  <!-- Content Container for Scrollytelling -->
+  <div id="content-container" class="hidden">
+    <div class="return-button">← Return to Navigation</div>
+    
+    <div id="scroll-container">
+      <!-- Content will be dynamically loaded here from content.json -->
+    </div>
   </div>
 
-  <main>
-    <section id="intro">
-      <h1>the cloud is a place on earth</h1>
-      <p>a history of computing</p>
-    </section>
+  <!-- Loading Screen -->
+  <div id="loading-screen" class="fullscreen">
+    <div class="loading-content">
+      <h1>The Cloud is a Place on Earth</h1>
+      <div class="loading-bar"><div class="loading-progress"></div></div>
+    </div>
+  </div>
+  
+  <!-- Fallback Message -->
+  <div id="fallback-message" class="fallback-message" style="display: none;">
+    <p>There was an error loading the navigation experience.</p>
+    <p>You can still access the content directly:</p>
+    <div id="fallback-chapters">
+      <!-- This will be populated with chapter links -->
+    </div>
+  </div>
+  
+  <!-- Debug Tools (hidden by default, toggle with Shift+D) -->
+  <div id="debug-tools" style="display: none; position: fixed; bottom: 10px; right: 10px; background: rgba(0,0,0,0.8); padding: 10px; border-radius: 4px; z-index: 9999; font-size: 12px;">
+    <h4>Debug Tools</h4>
+    <button id="debug-fallback">Test Fallback UI</button>
+    <button id="debug-reload">Reload Scripts</button>
+    <div id="debug-info"></div>
+  </div>
 
-    <section id="scrolly">
-      <div class="scrolly-overlay">
-        <!-- Sticky background that stays fixed while scrolling -->
-        <div class="sticky-thing">
-          <!-- Background layers for crossfade effect -->
-          <div class="bg-layer" id="bgLayer1"></div>
-          <div class="bg-layer" id="bgLayer2"></div>
-          <div class="chart" id="chart">
-            <!-- Visualizations will appear here -->
-          </div>
-        </div>
-        
-        <!-- Text content that scrolls over the visualization -->
-        <article>
-          <!-- Loading message that will be replaced with dynamically generated content -->
-          <div class="loading">Loading content...</div>
-        </article>
-      </div>
-    </section>
-
-    <section id="outro">
-      <p>Thank you for exploring the material reality of cloud computing with us.</p>
-    </section>
-  </main>
-
-  <script src="https://unpkg.com/intersection-observer@0.12.0/intersection-observer.js"></script>
-  <script src="https://unpkg.com/scrollama"></script>
-  <script src="script.js"></script>
+  <!-- Scripts -->
+  <script src="https://unpkg.com/scrollama@3.0.4/build/scrollama.min.js"></script>
+  <script src="navigation.js"></script>
+  <script src="content.js"></script>
+  <script src="main.js"></script>
   <script>
-    // Hide the loading spinner once everything is loaded
-    window.addEventListener('load', function() {
-      setTimeout(function() {
-        document.getElementById('initialLoading').classList.add('hidden');
-      }, 500); // Small delay to ensure content has rendered
+    // Debug tools functionality
+    document.addEventListener('DOMContentLoaded', function() {
+      const debugFallback = document.getElementById('debug-fallback');
+      if (debugFallback) {
+        debugFallback.addEventListener('click', function() {
+          setupFallbackNavigation();
+        });
+      }
+      
+      const debugReload = document.getElementById('debug-reload');
+      if (debugReload) {
+        debugReload.addEventListener('click', function() {
+          location.reload();
+        });
+      }
+      
+      const debugInfo = document.getElementById('debug-info');
+      if (debugInfo) {
+        debugInfo.innerHTML = `
+          <p>Screen: ${window.innerWidth}x${window.innerHeight}</p>
+          <p>User Agent: ${navigator.userAgent}</p>
+        `;
+      }
     });
   </script>
 </body>
