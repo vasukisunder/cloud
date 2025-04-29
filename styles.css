@@ -311,13 +311,43 @@ body {
   color: white;
   font-size: 0.75rem;
   cursor: pointer;
-  z-index: 15;
+  z-index: 25;
   transition: all 0.3s ease;
   letter-spacing: 0.05em;
   text-transform: uppercase;
 }
 
 .return-button:hover {
+  background-color: rgba(255, 255, 255, 0.2);
+}
+
+/* Chapter navigation buttons for bottom of each chapter */
+.chapter-navigation {
+  width: 100%;
+  max-width: 700px;
+  margin: 2vh auto 0;
+  display: flex;
+  justify-content: space-between;
+  padding: 2rem;
+}
+
+.chapter-navigation-button {
+  background-color: rgba(0, 0, 0, 0.7);
+  border: 1px solid rgba(255, 255, 255, 0.5);
+  color: white;
+  padding: 0.75rem 1.25rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-family: helvetica, sans-serif;
+  font-size: 0.9rem;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.chapter-navigation-button:hover {
   background-color: rgba(255, 255, 255, 0.2);
 }
 
@@ -367,7 +397,7 @@ body {
 
 .steps-container {
   position: relative;
-  padding: 15vh 0 50vh 0;
+  padding: 5vh 0 50vh 0;
   z-index: 2;
 }
 
@@ -414,7 +444,7 @@ body {
 .chapter-intro {
   max-width: 800px;
   margin: 0 auto;
-  padding: 10vh 2rem;
+  padding: 5vh 2rem;
   text-align: center;
 }
 
@@ -580,16 +610,20 @@ body {
 
 .intro-steps-container {
   position: relative;
-  padding: 10vh 0 30vh 0;
+  padding: 0 0 30vh 0;
   z-index: 2;
 }
 
 .intro-step {
   width: 90%;
   max-width: 600px;
-  margin: 0 auto 60vh;
+  margin: 5vh auto 30vh;
   opacity: 0.9;
   transition: opacity 0.5s ease;
+}
+
+.intro-step:first-child {
+  margin-top: 10vh;
 }
 
 .intro-step.is-active {

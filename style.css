@@ -189,7 +189,7 @@ article {
 /* Individual step styles */
 .step {
   max-width: 35rem;
-  margin: 0 auto 60vh auto; /* Reduced from 90vh to 60vh - less space between steps */
+  margin: 0 auto 30vh auto; /* Reduced from 60vh to 30vh - less space between steps */
   padding: 1.5rem;
   position: relative;
   left: 0;
@@ -210,12 +210,12 @@ article {
 }
 
 .step:last-child {
-  margin-bottom: 50vh; /* Space at the end */
+  margin-bottom: 70vh; /* Increased from 30vh to 70vh - more space at the end */
 }
 
-/* First step should have space at the top */
+/* First step should have minimal space at the top */
 .step:first-child {
-  margin-top: 20vh; /* Reduced from 50vh to 20vh - first step appears sooner */
+  margin-top: 5vh; /* Reduced from 20vh to 5vh - first step appears much sooner */
 }
 
 /* Removed the visual indicator for active steps */

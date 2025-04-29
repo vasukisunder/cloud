@@ -172,6 +172,9 @@ class ContentHandler {
       console.log(`Added step ${key} with text: ${text.substring(0, 50)}...`);
     });
     
+    // Add chapter navigation buttons
+    this.addChapterNavigation(stepsContainer, key);
+    
     // Add components to the DOM
     scrollContent.appendChild(stickyGraphic);
     scrollContent.appendChild(stepsContainer);
@@ -212,6 +215,11 @@ class ContentHandler {
     this.container.classList.remove('hidden');
     this.container.classList.add('visible');
     
+    // Show return button
+    if (this.returnButton) {
+      this.returnButton.classList.remove('hidden');
+    }
+    
     // Initialize scrollama after a short delay
     setTimeout(() => {
       this.initScrollama();
@@ -249,14 +257,14 @@ class ContentHandler {
         // Add mappings for all paragraph numbers in introduction
       },
       'war': {
-        '1': 'https://images.unsplash.com/photo-1530034424313-9be028eeae5a?q=80&w=2000',  
-        '2': 'https://images.unsplash.com/photo-1529244927325-b3ef2247b9fb?q=80&w=2000',
-        '3': 'https://images.unsplash.com/photo-1547483238-2cbf881a559f?q=80&w=2000',
-        '4': 'https://images.unsplash.com/photo-1579912437766-7896df6d3cd3?q=80&w=2000',
-        '5': 'https://images.unsplash.com/photo-1564594985645-4427056e22e2?q=80&w=2000',
-        '6': 'https://images.unsplash.com/photo-1548266652-99cf27701ced?q=80&w=2000',
-        '7': 'https://images.unsplash.com/photo-1580752300992-559f8e0734e0?q=80&w=2000',
-        '8': 'https://images.unsplash.com/photo-1570044486285-ad8a0f7beaee?q=80&w=2000',
+        '1': 'assets/images/B-24Ds_fly_over_Polesti_during_World_War_II.jpg',  
+        '2': 'assets/images/computer-Colossus-Bletchley-Park-Buckinghamshire-England-Funding-1943.jpg',
+        '3': 'assets/images/Hanford_N_Reactor_adjusted_2022-06-13-203721_uodb.jpg',
+        '4': 'assets/images/Hanford_N_Reactor_adjusted_2022-06-13-203721_uodb.jpg',
+        '5': 'assets/images/Gadget2.jpg',
+        '6': 'assets/images/atomic-cloud-over-hiroshima-from-matsuyama-.jpg',
+        '7': 'assets/images/atomic-cloud-over-hiroshima-from-matsuyama-.jpg',
+        '8': 'assets/images/hiroshima-bombing-article-about-atomic-bomb.jpg',
         // Add mappings for all paragraph numbers in war
       },
       'surveillance': {
@@ -326,11 +334,17 @@ class ContentHandler {
     
     if (contentHeight <= viewportHeight) {
       console.warn('Content may not be scrollable - adding padding');
-      // Add padding to ensure content can scroll
+      // Add padding to ensure content can scroll but with less empty space
       const stepsContainer = document.querySelector('.steps-container');
       if (stepsContainer) {
-        stepsContainer.style.paddingBottom = '100vh';
+        stepsContainer.style.paddingBottom = '100vh'; // Increased from 50vh to 100vh
       }
+    }
+    
+    // Add additional padding to last step to ensure it can be properly highlighted
+    const lastStep = this.scrollContainer.querySelector('.step:last-child');
+    if (lastStep) {
+      lastStep.style.marginBottom = '70vh';
     }
     
     // Manually check if each step is visible
@@ -366,7 +380,7 @@ class ContentHandler {
       this.scroller
         .setup({
           step: '.step',
-          offset: 0.5,
+          offset: 0.4,
           debug: false
         })
         .onStepEnter(this.handleStepEnter.bind(this))
@@ -431,6 +445,11 @@ class ContentHandler {
     setTimeout(() => {
       this.container.classList.add('hidden');
       
+      // Hide return button
+      if (this.returnButton) {
+        this.returnButton.classList.add('hidden');
+      }
+      
       // Trigger content closed event
       const event = new CustomEvent('contentClosed');
       window.dispatchEvent(event);
@@ -439,6 +458,75 @@ class ContentHandler {
   
   capitalizeFirstLetter(string) {
     return string.charAt(0).toUpperCase() + string.slice(1);
+  }
+  
+  // Add a new method to add chapter navigation buttons
+  addChapterNavigation(stepsContainer, currentChapter) {
+    // Get the ordered list of chapters
+    const chapters = Object.keys(this.contentData.sections[0])
+      .filter(key => key !== 'sections');
+    
+    // Find the index of the current chapter
+    const currentIndex = chapters.indexOf(currentChapter);
+    if (currentIndex === -1) return;
+    
+    // Create navigation container
+    const navigationContainer = document.createElement('div');
+    navigationContainer.className = 'chapter-navigation';
+    
+    // Previous chapter or back to navigation button
+    const prevButton = document.createElement('button');
+    prevButton.className = 'chapter-navigation-button prev-chapter';
+    
+    if (currentIndex > 0) {
+      // There is a previous chapter
+      const prevChapter = chapters[currentIndex - 1];
+      const prevChapterTitle = this.getChapterTitle(prevChapter);
+      prevButton.innerHTML = `← ${prevChapterTitle}`;
+      prevButton.addEventListener('click', () => this.showChapter(prevChapter));
+    } else {
+      // First chapter, show back to navigation
+      prevButton.innerHTML = '← Back to Navigation';
+      prevButton.addEventListener('click', this.closeContent.bind(this));
+    }
+    
+    // Next chapter or back to navigation button
+    const nextButton = document.createElement('button');
+    nextButton.className = 'chapter-navigation-button next-chapter';
+    
+    if (currentIndex < chapters.length - 1) {
+      // There is a next chapter
+      const nextChapter = chapters[currentIndex + 1];
+      const nextChapterTitle = this.getChapterTitle(nextChapter);
+      nextButton.innerHTML = `${nextChapterTitle} →`;
+      nextButton.addEventListener('click', () => this.showChapter(nextChapter));
+    } else {
+      // Last chapter, show back to navigation
+      nextButton.innerHTML = 'Back to Navigation →';
+      nextButton.addEventListener('click', this.closeContent.bind(this));
+    }
+    
+    // Add buttons to container
+    navigationContainer.appendChild(prevButton);
+    navigationContainer.appendChild(nextButton);
+    
+    // Add navigation container to steps container
+    stepsContainer.appendChild(navigationContainer);
+  }
+  
+  // Helper method to get chapter title
+  getChapterTitle(chapterKey) {
+    try {
+      const chapter = this.contentData.sections[0][chapterKey];
+      if (chapter && chapter[0] && chapter[0].title) {
+        return chapter[0].title;
+      }
+    } catch (error) {
+      console.error('Error getting chapter title:', error);
+    }
+    
+    // Fallback to capitalized key
+    return this.capitalizeFirstLetter(chapterKey);
   }
 }
 
