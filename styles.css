@@ -22,42 +22,6 @@ body {
   z-index: 1;
 }
 
-/* Loading Screen */
-#loading-screen {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background-color: #000000;
-  z-index: 1000;
-  transition: opacity 1s ease-out;
-}
-
-.loading-content {
-  text-align: center;
-}
-
-.loading-content h1 {
-  font-size: 2.5rem;
-  margin-bottom: 2rem;
-  letter-spacing: -0.03em;
-  font-weight: 500;
-}
-
-.loading-bar {
-  width: 300px;
-  height: 2px;
-  background-color: rgba(255, 255, 255, 0.1);
-  overflow: hidden;
-  margin: 0 auto;
-}
-
-.loading-progress {
-  height: 100%;
-  width: 0%;
-  background-color: #ffffff;
-  transition: width 0.3s ease-out;
-}
-
 /* Error Message */
 .error-message {
   margin-top: 20px;
@@ -391,6 +355,21 @@ body {
   transition: opacity 0.5s ease;
 }
 
+/* Apply background image from data attribute as a workaround since attr() 
+   doesn't fully work with background-image in all browsers */
+.graphic-background::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-image: var(--bg-image);
+  background-position: center;
+  background-size: cover;
+  z-index: -1;
+}
+
 .graphic-background.is-active {
   opacity: 1;
 }
@@ -406,17 +385,15 @@ body {
   max-width: 700px;
   margin: 0 auto 5vh;
   display: block;
-  background-color: rgba(0, 0, 0, 0.7);
   border-left: 1px solid rgba(255, 255, 255, 0.1);
-  padding: 2rem 2rem 2rem 2rem;
-  opacity: 0.3;
+  padding: 8px;;
+  background-color: rgba(0, 0, 0, 0.6);
   transition: opacity 0.5s ease, background-color 0.5s ease;
   position: relative;
 }
 
 .step.is-active {
   opacity: 1;
-  border-left: 1px solid rgba(255, 255, 255, 0.5);
   background-color: rgba(0, 0, 0, 0.8);
 }
 
@@ -432,9 +409,9 @@ body {
 
 .step p {
   font-family: helvetica, sans-serif;
-  font-size: 1.2rem;
-  line-height: 1.8;
-  margin-bottom: 1.5rem;
+  font-size: 14px;
+  line-height: 1.6;
+  width: 100%;
 }
 
 .step p:last-child {
@@ -551,14 +528,6 @@ body {
 }
 
 @media (max-width: 480px) {
-  .loading-content h1 {
-    font-size: 2rem;
-  }
-  
-  .loading-bar {
-    width: 250px;
-  }
-  
   #fallback-chapters {
     gap: 0.5rem;
   }
@@ -665,4 +634,141 @@ body {
 #enter-button:hover {
   background-color: rgba(255, 255, 255, 0.1);
   border-color: rgba(255, 255, 255, 0.8);
+}
+
+/* Styles for debug info in fallback content */
+.debug-info {
+  margin-top: 20px;
+  font-size: 0.8rem;
+  color: rgba(255,255,255,0.5);
+}
+
+.debug-info pre {
+  background: rgba(0,0,0,0.2);
+  padding: 10px;
+  overflow-x: auto;
+}
+
+/* Extra space for the last step's margin bottom */
+.step.last-step {
+  margin-bottom: 40vh;
+}
+
+/* Styles for steps container when content needs to be scrollable */
+.steps-container.needs-scrolling {
+  padding-bottom: 100vh;
+}
+
+/* Add bgLayer styles from script.js */
+#bgLayer1, #bgLayer2 {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-position: center;
+  background-size: cover;
+  transition: opacity 0.8s ease;
+  background-image: var(--bg-image, none);
+}
+
+/* Grid layout adjustments */
+.dynamic-grid-container {
+  width: 100%;
+  height: 100%;
+}
+
+/* Animation classes */
+.fade-in {
+  animation: fadeIn 0.3s forwards;
+}
+
+.fade-out {
+  animation: fadeOut 0.3s forwards;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes fadeOut {
+  from { opacity: 1; }
+  to { opacity: 0; }
+}
+
+/* Honor user preferences - reduce or eliminate animations */
+@media (prefers-reduced-motion: reduce) {
+  .graphic-background,
+  .chapter-node,
+  .grid-pattern,
+  .fade-in,
+  .fade-out {
+    transition: none !important;
+    animation: none !important;
+  }
+}
+
+/* Styles for sticky scrollytelling container used by script.js */
+.sticky-thing {
+  background-color: #989898;
+  position: sticky;
+  width: 100%;
+  height: 100vh;
+  top: 0;
+  z-index: 0; /* Place behind text */
+  overflow: hidden; /* Prevent backgrounds from overflowing */
+  border: none;
+  outline: none;
+}
+
+.sticky-thing.has-bg-image {
+  background-color: rgba(0, 0, 0, 0.7); /* Darker background */
+}
+
+/* Chart container styles */
+.chart {
+  width: 100%;
+  height: 100%;
+  position: relative;
+  padding: 2rem;
+  overflow: visible;
+  z-index: 1; /* Make sure chart content appears above background */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Image container styles */
+.image-container {
+  position: absolute;
+  transition: transform 0.5s ease;
+  opacity: 0;
+  animation: fadeIn 0.8s forwards;
+  transform: translate(-50%, -50%);
+  left: var(--pos-x, 50%);
+  top: var(--pos-y, 50%);
+  z-index: 1;
+}
+
+.image-container:hover {
+  z-index: 10;
+}
+
+.image-container img {
+  display: block;
+  max-width: 100%;
+  height: auto;
+}
+
+.custom-width img {
+  width: var(--image-width, "500px");
+}
+
+/* Article container */
+article {
+  width: 100%;
+  position: relative;
+  z-index: 1; /* Place on top of background */
+  margin: 0 auto;
 } 

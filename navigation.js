@@ -441,18 +441,17 @@ class NavigationSpace {
     const width = window.innerWidth;
     const height = window.innerHeight;
     
-    this.gridContainer.style.width = `${width}px`;
-    this.gridContainer.style.height = `${height}px`;
+    this.gridContainer.classList.add('dynamic-grid-container');
   }
   
   show() {
-    this.container.style.display = 'block';
+    this.container.classList.remove('hidden');
     // Ensure grid is sized correctly when shown
     this.updateGridSize();
   }
   
   hide() {
-    this.container.style.display = 'none';
+    this.container.classList.add('hidden');
   }
 }
 

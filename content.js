@@ -149,7 +149,8 @@ class ContentHandler {
       
       // Set background image - either from explicit mapping or fallback to chapter image
       // This could be extended to use specific images per paragraph/step
-      bgImage.style.backgroundImage = `url(${this.getBackgroundImage(key, index) || this.backgroundImages[this.currentChapter]})`;
+      const bgImageUrl = this.getBackgroundImage(key, index) || this.backgroundImages[this.currentChapter];
+      bgImage.dataset.bgImage = bgImageUrl;
       
       stickyGraphic.appendChild(bgImage);
     });
@@ -198,12 +199,10 @@ class ContentHandler {
       
       // Add debug info
       const debugInfo = document.createElement('div');
-      debugInfo.style.marginTop = '20px';
-      debugInfo.style.fontSize = '0.8rem';
-      debugInfo.style.color = 'rgba(255,255,255,0.5)';
+      debugInfo.className = 'debug-info';
       debugInfo.innerHTML = `
         <p>Debug: Segment structure for first item:</p>
-        <pre style="background: rgba(0,0,0,0.2); padding: 10px; overflow-x: auto;">${JSON.stringify(segment, null, 2)}</pre>
+        <pre>${JSON.stringify(segment, null, 2)}</pre>
       `;
       fallbackStep.appendChild(debugInfo);
       
@@ -337,14 +336,14 @@ class ContentHandler {
       // Add padding to ensure content can scroll but with less empty space
       const stepsContainer = document.querySelector('.steps-container');
       if (stepsContainer) {
-        stepsContainer.style.paddingBottom = '100vh'; // Increased from 50vh to 100vh
+        stepsContainer.classList.add('needs-scrolling');
       }
     }
     
     // Add additional padding to last step to ensure it can be properly highlighted
     const lastStep = this.scrollContainer.querySelector('.step:last-child');
     if (lastStep) {
-      lastStep.style.marginBottom = '70vh';
+      lastStep.classList.add('last-step');
     }
     
     // Manually check if each step is visible
@@ -414,6 +413,10 @@ class ContentHandler {
       const currentBg = document.getElementById(bgId);
       if (currentBg) {
         currentBg.classList.add('is-active');
+        // Set background image from data attribute using CSS custom property
+        if (currentBg.dataset.bgImage) {
+          currentBg.style.setProperty('--bg-image', `url(${currentBg.dataset.bgImage})`);
+        }
       }
     }
     
